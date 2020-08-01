@@ -3,23 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Event\PostRegistrationTest;
+use App\Event\PostCreatedEvent;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class FormController extends AbstractController
 {
-
     private PostRepository $postRepository;
+    private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(PostRepository $postRepository)
+    public function __construct(
+        PostRepository $postRepository,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
-        $this->postRepository = $postRepository;
+        $this->postRepository  = $postRepository;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -36,19 +40,14 @@ class FormController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->postRepository->save($post);
-
+            $this->eventDispatcher->dispatch(new PostCreatedEvent($post));
             return $this->redirectToRoute('form_list');
-
         }
+
         return $this->render('form/index.html.twig', [
             'test_form' => $form->createView(),
-
         ]);
-
-        $event = new PostRegistrationTest($post);
-        $dispatcher->dispatch(PostRegistrationTest::NAME, $event);
     }
 
     /**
@@ -56,13 +55,9 @@ class FormController extends AbstractController
      */
     public function list(): Response
     {
-        {
-
-        }
         return $this->render('data_change/index.html.twig', [
             'posts' => $this->postRepository->findAll()
         ]);
-
     }
 
     /**
@@ -81,12 +76,12 @@ class FormController extends AbstractController
 
             return $this->redirectToRoute('form_list');
         }
+
         return $this->render('form/index.html.twig', [
             'test_form' => $form->createView(),
 
         ]);
     }
-
 
     /**
      * @Route("/form/delete/{id}", name="form_delete")
