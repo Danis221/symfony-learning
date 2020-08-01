@@ -5,7 +5,11 @@
 {% block body %}
     <h1>Edit Category</h1>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(test_form) }}
+    {{ form_widget(test_form) }}
+    <button class="btn">{{ button_label|default('sa') }}</button>
+    {{ form_end(test_form) }}
+
 
     <a href="{{ path('category_index') }}">back to list</a>
 

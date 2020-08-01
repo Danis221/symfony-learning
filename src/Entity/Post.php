@@ -19,28 +19,33 @@ class Post
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titel;
+    private $title;
 
     /**
      * @ORM\Column(type="text")
      */
     private $description;
 
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitel(): ?string
+    /**
+     * @return mixed
+     */
+    public function getTitle()
     {
-        return $this->titel;
+        return $this->title;
     }
 
-    public function setTitel(string $titel): self
+    /**
+     * @param mixed $title
+     */
+    public function setTitle(string $title): void
     {
-        $this->titel = $titel;
-
-        return $this;
+        $this->title = $title;
     }
 
     public function getDescription(): ?string
@@ -54,5 +59,6 @@ class Post
 
         return $this;
     }
+
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

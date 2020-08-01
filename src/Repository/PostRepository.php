@@ -8,6 +8,7 @@ use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
+
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
@@ -26,6 +27,16 @@ final class PostRepository extends ServiceEntityRepository
     $this->getEntityManager()->persist($post);
     $this->getEntityManager()->flush();
 }
+    public function update(Post $post): void
+    {
+        //$this->getEntityManager()->getRepository(Post::class)->findOneBy(['id'=> 1]);
+        $this->getEntityManager()->flush();
+    }
+    public function delete(Post $post): void
+    {
+        $this->getEntityManager()->remove($post);
+        $this->getEntityManager()->flush();
+    }
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */

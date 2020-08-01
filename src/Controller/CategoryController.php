@@ -44,13 +44,14 @@ class CategoryController extends AbstractController
 
         return $this->render('category/new.html.twig', [
             'category' => $category,
-            'form' => $form->createView(),
+            'test_form' => $form->createView(),
         ]);
     }
 
     /**
      * @Route("/{id}", name="category_show", methods={"GET"})
      */
+
     public function show(Category $category): Response
     {
         return $this->render('category/show.html.twig', [
@@ -74,7 +75,7 @@ class CategoryController extends AbstractController
 
         return $this->render('category/edit.html.twig', [
             'category' => $category,
-            'form' => $form->createView(),
+            'test_form' => $form->createView(),
         ]);
     }
 

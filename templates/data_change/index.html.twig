@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DataChangeController!{% endblock %}
+
+{% block body %}
+    {% for post in posts %}
+        <br>{{ post.id }}
+        {{ post.title }}
+        {{ post.description }}
+        {{ include('data_change/data_delete.html.twig',{id:post.id} ) }}
+        <a href="{{ path('form_update', {'id': post.id}) }}">edit</a>
+    {% endfor %}
+
+{% endblock %}
